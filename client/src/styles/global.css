@@ -1,0 +1,51 @@
+/* src/styles/global.css */
+/* Google Fonts and CSS variables + base styles */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --bg: #eee2d5;
+  --bg-alt: #f7efe7;
+  --text: #3e3028;
+  --text-muted: #6f5a50;
+  --surface: #fbf6f1;
+  --border: #d6c4b7;
+  --accent: #b08968;
+  --accent-light: #d1b29a;
+  --accent-dark: #8f6f56;
+  --btn-bg: #e9d7c9;
+  --btn-hover: #d8c3b4;
+  --btn-text: #4a3b33;
+  --shadow-color: rgba(80, 60, 50, 0.15);
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+/* Smooth scroll and anchor offset */
+html { scroll-behavior: smooth; }
+section { scroll-margin-top: 80px; }
+
+/* Hide scrollbar while maintaining scroll functionality */
+html {
+  scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+body {
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; clip-path: inset(50%); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
