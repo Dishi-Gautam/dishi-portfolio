@@ -28,7 +28,7 @@ export default function App() {
           <ExperienceNG />
           <Projects />
           <Skills />
-          {/* Contact placeholder removed; scroll-fill callout appears before footer */}
+          
         </main>
          <Contact />
         <Footer />
