@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function ScrollHeading({ text }) {
+export default function ScrollHeading({ text, lightMode = false }) {
   const clipRef = useRef(null)
   const sectionRef = useRef(null)
   const svgRef = useRef(null)
@@ -80,20 +80,20 @@ export default function ScrollHeading({ text }) {
         </defs>
         <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle"
           fontFamily="'Anton', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
-          fontSize="110" fill="rgba(0,0,0,0.25)" filter={`url(#scroll-heading-shadow-${uid})`}>
+          fontSize="110" fill={lightMode ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.25)"} filter={`url(#scroll-heading-shadow-${uid})`}>
           {text}
         </text>
         <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle"
           fontFamily="'Anton', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
           fontSize="110" fill="transparent" stroke="currentColor" strokeWidth="2"
-          style={{ color: 'var(--chakra-colors-brand-border)' }}>
+          style={{ color: lightMode ? 'rgba(233, 215, 201, 0.4)' : 'var(--chakra-colors-brand-border)' }}>
           {text}
         </text>
         <g clipPath={`url(#scroll-heading-clip-${uid})`}>
           <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle"
             fontFamily="'Anton', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
             fontSize="110" fill="currentColor"
-            style={{ color: 'var(--chakra-colors-brand-text)' }}>
+            style={{ color: lightMode ? '#e9d7c9' : 'var(--chakra-colors-brand-text)' }}>
             {text}
           </text>
         </g>

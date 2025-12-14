@@ -6,10 +6,9 @@ import HeroNG from './components/HeroNG'
 import AboutNG from './components/AboutNG'
 import ExperienceNG from './components/ExperienceNG'
 import Projects from './components/Projects'
-import SkillsSimple from './components/SkillsSimple'
+import Skills from './components/Skills'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import ScrollName from './components/ScrollName'
 import { initBlobParallax } from './utils/gsap'
 
 export default function App() {
@@ -28,9 +27,7 @@ export default function App() {
           <AboutNG />
           <ExperienceNG />
           <Projects />
-          <SkillsSimple />
-         
-          <ScrollName />
+          <Skills />
           {/* Contact placeholder removed; scroll-fill callout appears before footer */}
         </main>
          <Contact />

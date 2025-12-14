@@ -35,12 +35,18 @@ export default function SidebarNav() {
       { root: null, rootMargin: '0px 0px -60% 0px', threshold: 0.25 }
     )
 
-    const targets = links
-      .map((l) => document.getElementById(l.id))
-      .filter(Boolean)
-    targets.forEach((t) => observer.observe(t))
+    // Delay to ensure all sections are mounted
+    const timeoutId = setTimeout(() => {
+      const targets = links
+        .map((l) => document.getElementById(l.id))
+        .filter(Boolean)
+      targets.forEach((t) => observer.observe(t))
+    }, 100)
 
-    return () => observer.disconnect()
+    return () => {
+      clearTimeout(timeoutId)
+      observer.disconnect()
+    }
   }, [])
 
   return (
@@ -71,16 +77,29 @@ export default function SidebarNav() {
         top={{ base: 4, md: 6 }}
         left="50%"
         transform="translateX(-50%)"
-        zIndex={20}
-        bg="rgba(255, 255, 255, 0.85)"
-        backdropFilter="blur(10px)"
+        zIndex={1000}
+        bg="rgba(251, 246, 241, 0.7)"
+        backdropFilter="blur(16px) saturate(180%)"
         borderRadius="full"
         px={{ base: 4, md: 6 }}
         py={3}
-        boxShadow="0 4px 20px rgba(0,0,0,0.08)"
+        boxShadow="0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)"
         border="1px solid"
-        borderColor="rgba(176,137,104,0.15)"
+        borderColor="rgba(176,137,104,0.2)"
         display={{ base: 'none', md: 'block' }}
+        transition="all 0.3s ease"
+        _before={{
+          content: '""',
+          position: 'absolute',
+          inset: 0,
+          borderRadius: 'full',
+          padding: '1px',
+          background: 'linear-gradient(135deg, rgba(255,255,255,0.8), rgba(176,137,104,0.3))',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+          pointerEvents: 'none',
+        }}
       >
         <Flex as="ul" gap={{ base: 3, md: 6 }} align="center" listStyleType="none" m={0} p={0}>
           {links.map((l) => {
@@ -94,16 +113,20 @@ export default function SidebarNav() {
                 fontSize={{ base: 'sm', md: 'md' }}
                 fontWeight={isActive ? '600' : '500'}
                 color={isActive ? 'brand.600' : 'brand.muted'}
-                fontFamily="'Comic Neue', 'Quicksand', cursive, sans-serif"
+                fontFamily="'Story Script', 'Comic Neue', 'Quicksand', cursive, sans-serif"
                 textTransform="lowercase"
                 position="relative"
                 px={2}
                 h="auto"
                 minW="auto"
-                transition="all 0.2s ease"
+                transition="all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
                 _hover={{
                   color: 'brand.600',
-                  transform: 'translateY(-1px)',
+                  transform: 'translateY(-2px) scale(1.05)',
+                  textShadow: '0 2px 8px rgba(176, 137, 104, 0.2)',
+                }}
+                _active={{
+                  transform: 'translateY(0) scale(0.98)',
                 }}
                 _after={{
                   content: '""',
@@ -115,7 +138,7 @@ export default function SidebarNav() {
                   height: '2px',
                   bg: 'brand.500',
                   borderRadius: 'full',
-                  transition: 'width 0.3s ease',
+                  transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
               >
                 {l.label}
@@ -174,7 +197,7 @@ export default function SidebarNav() {
                     fontSize="lg"
                     fontWeight={isActive ? '600' : '500'}
                     color={isActive ? 'brand.600' : 'brand.text'}
-                    fontFamily="'Comic Neue', 'Quicksand', cursive, sans-serif"
+                    fontFamily="'Inter', 'DM Sans', sans-serif"
                     textTransform="lowercase"
                     px={4}
                     py={3}

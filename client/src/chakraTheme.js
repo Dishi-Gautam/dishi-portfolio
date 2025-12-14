@@ -44,10 +44,34 @@ const overrides = {
   },
   components: {
     Button: {
-      baseStyle: { borderRadius: '12px' },
+      baseStyle: { 
+        borderRadius: '12px',
+        backdropFilter: 'blur(12px) saturate(150%)',
+        WebkitBackdropFilter: 'blur(12px) saturate(150%)',
+        border: '1px solid rgba(176, 137, 104, 0.25)',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+        transition: 'all 0.3s ease',
+      },
       variants: {
-        solid: { bg: 'brand.200', color: 'brand.800', _hover: { bg: 'brand.100' } },
-        outline: { borderColor: 'brand.400', color: 'brand.800', _hover: { bg: 'brand.100' } },
+        solid: { 
+          bg: 'rgba(233, 215, 201, 0.7)', 
+          color: 'brand.800', 
+          _hover: { 
+            bg: 'rgba(247, 239, 231, 0.85)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)',
+          } 
+        },
+        outline: { 
+          bg: 'rgba(255, 255, 255, 0.3)',
+          borderColor: 'brand.400', 
+          color: 'brand.800', 
+          _hover: { 
+            bg: 'rgba(247, 239, 231, 0.7)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.15)',
+          } 
+        },
       },
     },
     Container: { baseStyle: { maxW: '1000px', px: 6 } },

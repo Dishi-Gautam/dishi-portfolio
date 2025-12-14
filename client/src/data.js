@@ -1,11 +1,10 @@
 
 export const socials = [
   { label: 'GitHub', url: 'https://github.com/Dishi-Gautam' },
-  { label: 'LinkedIn', url: 'https://www.linkedin.com/in/dishi02/' },
-  { label: 'LeetCode', url: 'https://leetcode.com/u/ministudy2' }
+  { label: 'LinkedIn', url: 'https://www.linkedin.com/in/dishi02/' }
 ]
 
-// Skills used by SkillsSimple.jsx
+// Skills used by Skills.jsx
 export const skills = {
   'Languages': [
     { name: 'C' },
@@ -68,6 +67,13 @@ export const projects = [
     description: 'AI-powered recruitment platform streamlining hiring with automated resume screening, candidate matching, interview scheduling, and performance analytics.',
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'OpenAI', 'Tailwind CSS'],
     repo: 'https://github.com/Dishi-Gautam',
+    site: '',
+  },
+  {
+    title: 'Portfolio',
+    description: 'Personal portfolio with smooth scroll animations, GSAP-driven reveals, and Chakra-themed UI.',
+    tech: ['React', 'Chakra UI', 'GSAP', 'Vite'],
+    repo: 'https://github.com/Dishi-Gautam/dishi-portfolio',
     site: '',
   },
 ]

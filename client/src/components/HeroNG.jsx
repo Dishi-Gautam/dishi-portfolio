@@ -145,22 +145,13 @@ export default function HeroNG() {
         I am Dishi
           </Heading>
           <Text
-        fontWeight="600"
-        color="brand.muted"
-        fontSize={{ base: 'md', md: 'lg' }}
-        mt={2}
-        ref={(el)=> (subRefs.current[0] = el)}
-          >
-           Full stack developer   
-          </Text>
-          <Text
         
         color="brand.muted"
         fontSize={{ base: 'xl', md: '2xl' }}
         mt={3}
         ref={(el)=> (subRefs.current[1] = el)}
           >
-        I build thoughtful, accessible applications.
+        Full stack developer   
           </Text>
         </Box>
 
