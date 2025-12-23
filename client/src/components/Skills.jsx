@@ -104,9 +104,12 @@ export default function Skills() {
                   transform: 'translateY(-6px)',
                   boxShadow: '0 25px 60px rgba(0,0,0,0.15)',
                   borderColor: 'rgba(176, 137, 104, 0.5)',
+                  _before: {
+                    opacity: 1,
+                  },
                 }}
                 _before={{
-                  content: '\"\"',
+                  content: '""',
                   position: 'absolute',
                   top: 0,
                   left: 0,
@@ -115,9 +118,6 @@ export default function Skills() {
                   bg: 'linear-gradient(90deg, #b08968 0%, #7a5f52 100%)',
                   opacity: 0,
                   transition: 'opacity 0.3s ease',
-                }}
-                _hoverBefore={{
-                  opacity: 1,
                 }}
               >
                 {/* Group header */}

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+  <rect width="1200" height="700" fill="#f3f4f6"/>
+  <rect x="60" y="60" width="1080" height="580" rx="16" fill="#ffffff" stroke="#d1d5db"/>
+  <text x="600" y="360" font-family="Inter, Arial, sans-serif" font-size="48" fill="#6b7280" text-anchor="middle">NextHire</text>
+</svg>

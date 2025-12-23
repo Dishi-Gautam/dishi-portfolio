@@ -41,7 +41,7 @@ export const projects = [
     description: 'Smart agriculture platform for data-driven crop management.',
     tech: ['React', 'Node.js', 'MongoDB'],
     repo: 'https://github.com/yjhkdjsg/Harvesta'    ,
-    image:'../../public/images/harvesta.png',
+    image:'/images/harvesta.png',
   },
   {
     title: 'CyberGuard',
@@ -63,7 +63,7 @@ export const projects = [
     tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Bootstrap'],
     repo: 'https://github.com/yash2607-del/Samaaj',
     site: 'https://samaaj-xi.vercel.app/',
-    image: '../../public/images/pic1.png',
+    image: '/images/pic1.png',
   },
   {
     title: 'NextHire',
@@ -72,7 +72,7 @@ export const projects = [
     repo: 'https://github.com/yash2607-del/NextHire',
     site: '',
     comingSoon: true,
-    image: 'https://via.placeholder.com/1200x700?text=NextHire',
+    image: '/images/placeholder.svg',
   },
   {
     title: 'Portfolio',
@@ -80,7 +80,7 @@ export const projects = [
     tech: ['React', 'Chakra UI', 'GSAP', 'Vite'],
     repo: 'https://github.com/Dishi-Gautam/dishi-portfolio',
     site: '',
-    image:'../../public/images/portfolio.png',
+    image:'/images/portfolio.png',
   },
 ]
 
