@@ -35,39 +35,44 @@ export const skills = {
   ],
 }
 
-// Projects: Use real repositories when available; otherwise conservative placeholders
 export const projects = [
   {
     title: 'Harvesta',
     description: 'Smart agriculture platform for data-driven crop management.',
     tech: ['React', 'Node.js', 'MongoDB'],
-    repo: 'https://github.com/Dishi-Gautam',
+    repo: 'https://github.com/yjhkdjsg/Harvesta'    ,
+    image:'../../public/images/harvesta.png',
   },
   {
     title: 'CyberGuard',
     description: 'Cybersecurity monitoring platform for campus networks. Features tamper-proof logging, real-time threat detection, AI-powered attack classification, and honeypot deception.',
     tech: ['React.js', 'Node.js', 'Flask', 'MongoDB', 'Socket.IO', 'Machine Learning'],
     repo: 'https://github.com/Dishi-Gautam',
+    comingSoon: true,
   },
   {
     title: 'DevSpace',
     description: 'Developer workspace utilities for workflow polish and productivity.',
     tech: ['React', 'MUI', 'Python'],
     repo: 'https://github.com/Dishi-Gautam',
+    comingSoon: true,
   },
   {
     title: 'Samaaj',
     description: 'Civic issue reporting platform bridging citizens and solutions. Users report local problems with photos and locations, while moderators respond in real-time.',
     tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Bootstrap'],
-    repo: 'https://github.com/Dishi-Gautam',
-    site: '',
+    repo: 'https://github.com/yash2607-del/Samaaj',
+    site: 'https://samaaj-xi.vercel.app/',
+    image: '../../public/images/pic1.png',
   },
   {
     title: 'NextHire',
     description: 'AI-powered recruitment platform streamlining hiring with automated resume screening, candidate matching, interview scheduling, and performance analytics.',
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'OpenAI', 'Tailwind CSS'],
-    repo: 'https://github.com/Dishi-Gautam',
+    repo: 'https://github.com/yash2607-del/NextHire',
     site: '',
+    comingSoon: true,
+    image: 'https://via.placeholder.com/1200x700?text=NextHire',
   },
   {
     title: 'Portfolio',
@@ -75,6 +80,7 @@ export const projects = [
     tech: ['React', 'Chakra UI', 'GSAP', 'Vite'],
     repo: 'https://github.com/Dishi-Gautam/dishi-portfolio',
     site: '',
+    image:'../../public/images/portfolio.png',
   },
 ]
 

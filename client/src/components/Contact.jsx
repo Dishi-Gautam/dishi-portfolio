@@ -314,7 +314,7 @@ export default function Contact() {
                     _active={{ transform: 'translateY(0)' }}
                     transition="all 300ms ease"
                   >
-                    Send Message ✉️
+                    Send Message 
                   </Button>
                 </Box>
               </VStack>

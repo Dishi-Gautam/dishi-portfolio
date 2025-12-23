@@ -159,7 +159,7 @@ export default function HeroNG() {
           <Button as="a" href="#contact" border="0.5px solid" size="lg" variant="solid" ref={(el)=> (btnRefs.current[0] = el)}>
         Hire Me
           </Button>
-          <Button as="a" href="/resume.pdf" target="_blank" rel="noreferrer" size="lg" variant="outline" ref={(el)=> (btnRefs.current[1] = el)}>Download Resume</Button>
+          <Button as="a" href="https://drive.google.com/file/d/1QCCxNWrkvwcHR74G33h1bxFpp1vThgUt/view?usp=sharing" target="_blank" rel="noreferrer" size="lg" variant="outline" ref={(el)=> (btnRefs.current[1] = el)}>Download Resume</Button>
         </HStack>
       </Container>
         </Box>

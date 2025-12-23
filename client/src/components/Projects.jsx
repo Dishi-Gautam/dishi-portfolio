@@ -23,6 +23,7 @@ export default function Projects() {
   const [active, setActive] = useState(0)
   const [paused, setPaused] = useState(false)
   const [disableTransition, setDisableTransition] = useState(false)
+  const [modalProject, setModalProject] = useState(null)
   
   const slides = useMemo(() => chunk(projects.slice(0, 6), 2), [])
   const extendedSlides = useMemo(() => [...slides, slides[0]], [slides])
@@ -96,6 +97,10 @@ export default function Projects() {
                     <div
                       key={cardKey}
                       className={`${styles.card} proj-card`}
+                      onClick={() => setModalProject(p)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setModalProject(p) }}
                     >
                       <div className={styles.imageArea}>
                         {p.image ? (
@@ -117,18 +122,20 @@ export default function Projects() {
                           >
                             {p.title}
                           </Heading>
-                          <Badge
-                            bg="rgba(176, 137, 104, 0.3)"
-                            color="#e9d7c9"
-                            px={3}
-                            py={1}
-                            borderRadius="full"
-                            fontSize="xs"
-                            fontFamily="'Inter', 'DM Sans', sans-serif"
-                            textTransform="capitalize"
-                          >
-                            {p.category || 'Web Design'}
-                          </Badge>
+                          {p.comingSoon ? (
+                            <Badge
+                              bg="rgba(255, 165, 0, 0.14)"
+                              color="#ffd9a8"
+                              px={3}
+                              py={1}
+                              borderRadius="full"
+                              fontSize="xs"
+                              fontFamily="'Inter', 'DM Sans', sans-serif"
+                              textTransform="none"
+                            >
+                              Coming Soon
+                            </Badge>
+                          ) : null}
                         </Flex>
 
                         <Text 
@@ -157,28 +164,23 @@ export default function Projects() {
                             borderRadius="full"
                             size="sm"
                             fontFamily="'Inter', 'DM Sans', sans-serif"
-                            isDisabled={!p.site}
+                            isDisabled={p.comingSoon || !p.site}
+                            onClick={(e) => e.stopPropagation()}
                           >
                             Visit Site
                           </Button>
                           <Button
-                            as="a"
-                            href={p.repo}
-                            target="_blank"
-                            rel="noreferrer"
                             flex={1}
-                            bg="rgba(255, 255, 255, 0.1)"
+                            bg="rgba(255, 255, 255, 0.08)"
                             color="white"
-                            border="1px solid rgba(176, 137, 104, 0.3)"
-                            _hover={{
-                              bg: 'rgba(255, 255, 255, 0.15)',
-                              transform: 'translateY(-2px)',
-                            }}
+                            border="1px solid rgba(176, 137, 104, 0.18)"
+                            _hover={{ transform: 'translateY(-2px)' }}
                             borderRadius="full"
                             size="sm"
                             fontFamily="'Inter', 'DM Sans', sans-serif"
+                            onClick={(e) => { e.stopPropagation(); setModalProject(p) }}
                           >
-                            GitHub
+                            Read More
                           </Button>
                         </Flex>
                       </div>
@@ -189,6 +191,33 @@ export default function Projects() {
             ))}
           </div>
         </div>
+
+        {modalProject && (
+          <div className={styles.modalOverlay} onClick={() => setModalProject(null)} role="dialog" aria-modal="true">
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <button className={styles.modalClose} onClick={() => setModalProject(null)} aria-label="Close">×</button>
+              <div className={styles.modalHeader}>
+                {modalProject.image ? <img src={modalProject.image} alt={modalProject.title} className={styles.modalImage} /> : null}
+              </div>
+              <div className={styles.modalBody}>
+                <Heading as="h2" fontSize="2xl" mb={3}>{modalProject.title}</Heading>
+                {modalProject.comingSoon ? (
+                  <Badge mb={3} bg="rgba(255,165,0,0.12)" color="#ffd9a8">Coming Soon</Badge>
+                ) : null}
+                <Text mb={4}>{modalProject.description}</Text>
+                <Box className={styles.modalBadges} mb={4}>
+                  {(modalProject.tech || []).map((t) => (
+                    <Badge key={t} className={styles.modalBadge}>{t}</Badge>
+                  ))}
+                </Box>
+                <Flex gap={3}>
+                  <Button as="a" href={modalProject.repo} target="_blank" rel="noreferrer" bg="rgba(176,137,104,0.95)" color="white">GitHub</Button>
+                  <Button as="a" href={modalProject.site || '#'} target={modalProject.site ? '_blank' : undefined} rel={modalProject.site ? 'noreferrer' : undefined} isDisabled={!modalProject.site}>Visit Site</Button>
+                </Flex>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className={styles.dots}>
           {slides.map((_, i) => (

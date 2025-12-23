@@ -58,19 +58,25 @@
 
 .imageArea {
   width: 100%;
-  height: 240px;
-  background: linear-gradient(135deg, #2a1f1a 0%, #1a1412 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  /* Use intrinsic aspect ratio so images scale consistently */
   position: relative;
+  padding-top: 56.25%; /* 16:9 */
+  background: linear-gradient(135deg, #2a1f1a 0%, #1a1412 100%);
+  overflow: hidden;
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
 }
 
 .projectImage {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: block;
+  /* show full image rather than cropping; change to 'cover' if you prefer centered crop */
+  object-fit: contain;
+  object-position: center center;
   transition: transform 0.4s ease;
 }
 
@@ -191,4 +197,48 @@
   .slide { grid-template-columns: 1fr; }
   .card { min-height: auto; }
   .imageOverlay { height: 220px; }
+}
+
+/* Modal styles */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  padding: 24px;
+}
+.modalContent {
+  width: 100%;
+  max-width: 960px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+  display: grid;
+  grid-template-columns: 1fr 360px;
+}
+.modalHeader { background: #f6f6f6; }
+.modalImage { width: 100%; height: 100%; display: block; object-fit: cover; }
+.modalBody { padding: 24px; }
+.modalClose {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  background: rgba(255,255,255,0.95);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  font-size: 20px;
+  cursor: pointer;
+}
+.modalBadges { display:flex; gap:8px; flex-wrap:wrap; }
+.modalBadge { background: rgba(176,137,104,0.12); color: #3e3028; padding:6px 10px; border-radius:6px; border:1px solid rgba(176,137,104,0.2); }
+
+@media (max-width: 900px) {
+  .modalContent { grid-template-columns: 1fr; max-width: 720px; }
+  .modalImage { height: 320px; }
 }

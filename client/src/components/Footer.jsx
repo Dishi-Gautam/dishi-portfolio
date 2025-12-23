@@ -105,7 +105,7 @@ export default function Footer() {
               boxShadow: '0 15px 40px rgba(176, 137, 104, 0.4)',
             }}
           >
-            Get In Touch ✉️
+            Get In Touch 
           </Button>
         </Box>
 
