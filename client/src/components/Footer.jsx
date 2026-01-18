@@ -165,6 +165,16 @@ export default function Footer() {
               transition="all 0.3s ease"
               _hover={{ color: 'brand.600' }}
             >
+              Home
+            </Link>
+            <Link 
+              href="#about"
+              color="brand.muted"
+              fontFamily="'Inter', 'DM Sans', sans-serif"
+              fontSize="sm"
+              transition="all 0.3s ease"
+              _hover={{ color: 'brand.600' }}
+            >
               About
             </Link>
             <Link 

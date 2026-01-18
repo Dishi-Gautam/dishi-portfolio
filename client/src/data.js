@@ -4,7 +4,6 @@ export const socials = [
   { label: 'LinkedIn', url: 'https://www.linkedin.com/in/dishi02/' }
 ]
 
-// Skills used by Skills.jsx
 export const skills = {
   'Languages': [
     { name: 'C' },
@@ -17,6 +16,10 @@ export const skills = {
     { name: 'CSS' },
     { name: 'React' },
     { name: 'Tailwind CSS' },
+    { name: 'Chakra UI' },
+    { name: 'Bootstrap' },
+
+
   ],
   'Backend': [
     { name: 'Node.js' },
@@ -36,26 +39,14 @@ export const skills = {
 }
 
 export const projects = [
+ 
   {
-    title: 'Harvesta',
-    description: 'Smart agriculture platform for data-driven crop management.',
-    tech: ['React', 'Node.js', 'MongoDB'],
-    repo: 'https://github.com/yjhkdjsg/Harvesta'    ,
-    image:'/images/harvesta.png',
-  },
-  {
-    title: 'CyberGuard',
-    description: 'Cybersecurity monitoring platform for campus networks. Features tamper-proof logging, real-time threat detection, AI-powered attack classification, and honeypot deception.',
-    tech: ['React.js', 'Node.js', 'Flask', 'MongoDB', 'Socket.IO', 'Machine Learning'],
+    title: 'MediChain',
+    description: 'A secure, AI-powered, and blockchain-backed web application connecting patients, doctors, and pharmacies through verified prescriptions, real-time inventory, and intelligent health guidance.',
+    tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Ethereum'],
     repo: 'https://github.com/Dishi-Gautam',
-    comingSoon: true,
-  },
-  {
-    title: 'DevSpace',
-    description: 'Developer workspace utilities for workflow polish and productivity.',
-    tech: ['React', 'MUI', 'Python'],
-    repo: 'https://github.com/Dishi-Gautam',
-    comingSoon: true,
+    site:'https://medichain-chi.vercel.app/',
+    image:'/images/image.png',
   },
   {
     title: 'Samaaj',
@@ -70,9 +61,23 @@ export const projects = [
     description: 'AI-powered recruitment platform streamlining hiring with automated resume screening, candidate matching, interview scheduling, and performance analytics.',
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'OpenAI', 'Tailwind CSS'],
     repo: 'https://github.com/yash2607-del/NextHire',
-    site: '',
+    site: 'https://nexthire-snowy.vercel.app/',
     comingSoon: true,
     image: '/images/placeholder.svg',
+  },
+   {
+    title: 'Harvesta',
+    description: 'Smart agriculture platform for data-driven crop management.',
+    tech: ['React', 'Node.js', 'MongoDB'],
+    repo: 'https://github.com/yjhkdjsg/Harvesta'    ,
+    image:'/images/harvesta.png',
+  },
+  {
+    title: 'CyberGuard',
+    description: 'Cybersecurity monitoring platform for campus networks. Features tamper-proof logging, real-time threat detection, AI-powered attack classification, and honeypot deception.',
+    tech: ['React.js', 'Node.js', 'Flask', 'MongoDB', 'Socket.IO', 'Machine Learning'],
+    repo: 'https://github.com/Dishi-Gautam',
+    
   },
   {
     title: 'Portfolio',

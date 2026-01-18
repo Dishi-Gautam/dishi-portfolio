@@ -93,7 +93,7 @@ export default function HeroNG() {
   }, [])
 
   return (
-    <Box id="home" as="section" position="relative" overflow="hidden">
+    <Box id="home" as="section" position="relative" overflow="hidden" height='100%'>
       <Box
         ref={bgRef}
         position="absolute"

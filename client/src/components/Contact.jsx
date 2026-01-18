@@ -1,23 +1,198 @@
-import React, { useEffect, useRef } from 'react'
-import { Box, Container, Heading, Text, Input, Textarea, Button, VStack, HStack, Link, Icon } from '@chakra-ui/react'
-import { socials } from '../data'
+import React, { useEffect, useRef, useState } from 'react'
+import { Box, Container, Text, Input, Textarea, Button, VStack, HStack, Link, Icon, useToast } from '@chakra-ui/react'
 import ScrollHeading from './ScrollHeading'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { FiMapPin, FiMail, FiPhone } from 'react-icons/fi'
-import { SiGithub, SiLinkedin, SiLeetcode } from 'react-icons/si'
+import { FiMail } from 'react-icons/fi'
+import { SiGithub, SiLinkedin } from 'react-icons/si'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const socialIconMap = {
-  'GitHub': SiGithub,
-  'LinkedIn': SiLinkedin,
-  'LeetCode': SiLeetcode,
-}
+const CONTACT_EMAIL = 'mail2dishig@gmail.com'
+const DEFAULT_FORMSPREE_ENDPOINT = 'https://formspree.io/f/xdaaevol'
 
 export default function Contact() {
   const containerRef = useRef(null)
   const shapesRef = useRef([])
+  const toast = useToast()
+
+  const contactEndpoint = (
+    (import.meta?.env?.VITE_CONTACT_ENDPOINT || '').trim() ||
+    DEFAULT_FORMSPREE_ENDPOINT
+  )
+
+  const [form, setForm] = useState({
+    name: '',
+    subject: '',
+    email: '',
+    phone: '',
+    message: '',
+  })
+  const [honeypot, setHoneypot] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const onChange = (e) => {
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    if (isSubmitting) return
+
+    // Basic bot mitigation: if a hidden field is filled, pretend it worked.
+    if (honeypot) {
+      setForm({ name: '', subject: '', email: '', phone: '', message: '' })
+      setHoneypot('')
+      toast({
+        title: 'Thanks!',
+        description: 'Your message has been sent.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+      return
+    }
+
+    const name = form.name.trim()
+    const email = form.email.trim()
+    const subject = form.subject.trim() || `Portfolio contact from ${name || 'someone'}`
+    const phone = form.phone.trim()
+    const message = form.message.trim()
+
+    if (!name || !email || !message) {
+      toast({
+        title: 'Please fill the required fields',
+        description: 'Name, email, and message are required.',
+        status: 'error',
+        duration: 3500,
+        isClosable: true,
+      })
+      return
+    }
+
+    const bodyLines = [
+      'New message from portfolio site:',
+      '',
+      `Name: ${name}`,
+      `Email: ${email}`,
+      phone ? `Phone: ${phone}` : null,
+      '',
+      'Message:',
+      message,
+    ].filter(Boolean)
+
+    const mailtoHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`
+
+    setIsSubmitting(true)
+    try {
+      if (contactEndpoint) {
+        let response
+        let responseJson
+        try {
+          const formData = new FormData()
+          formData.append('name', name)
+          formData.append('email', email)
+          formData.append('_replyto', email)
+          formData.append('subject', subject)
+          formData.append('_subject', subject)
+          if (phone) formData.append('phone', phone)
+          formData.append('message', message)
+          formData.append('source', 'portfolio')
+
+          response = await fetch(contactEndpoint, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+            },
+            body: formData,
+          })
+
+          try {
+            responseJson = await response.json()
+          } catch {
+            responseJson = null
+          }
+        } catch {
+          response = null
+          responseJson = null
+        }
+
+        if (response?.ok) {
+          toast({
+            title: 'Message sent',
+            description: "Thanks! I'll get back to you soon.",
+            status: 'success',
+            duration: 4500,
+            isClosable: true,
+          })
+          setForm({ name: '', subject: '', email: '', phone: '', message: '' })
+          setHoneypot('')
+          return
+        }
+
+        // If the API fails, do NOT auto-open mailto (avoids Outlook prompt).
+        const formspreeError =
+          responseJson?.errors?.[0]?.message ||
+          responseJson?.error ||
+          (typeof responseJson === 'string' ? responseJson : null)
+
+        toast({
+          title: "Couldn't send automatically",
+          description: (
+            <>
+              {formspreeError ? `${formspreeError}. ` : ''}
+              Please try again, or email me at{' '}
+              <Link href={`mailto:${CONTACT_EMAIL}`} textDecoration="underline" color="white">
+                {CONTACT_EMAIL}
+              </Link>
+              .
+            </>
+          ),
+          status: 'warning',
+          duration: 4500,
+          isClosable: true,
+        })
+
+        try {
+          if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(bodyLines.join('\n'))
+          }
+        } catch {
+          // Clipboard permissions can fail; ignore silently.
+        }
+
+        return
+      }
+
+      // No endpoint configured: do not auto-open the mail client (avoids Outlook prompt).
+      toast({
+        title: 'Contact form not configured',
+        description: (
+          <>
+            Automatic sending is not enabled yet. Please email me at{' '}
+            <Link href={mailtoHref} textDecoration="underline" color="white">
+              {CONTACT_EMAIL}
+            </Link>
+            .
+          </>
+        ),
+        status: 'info',
+        duration: 7000,
+        isClosable: true,
+      })
+
+      try {
+        if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(bodyLines.join('\n'))
+        }
+      } catch {
+        // Clipboard permissions can fail; ignore silently.
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   useEffect(() => {
     const container = containerRef.current
@@ -175,13 +350,26 @@ export default function Contact() {
             borderColor="rgba(176, 137, 104, 0.2)"
             boxShadow="0 20px 60px rgba(0, 0, 0, 0.3)"
           >
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={onSubmit}>
               <VStack spacing={5} align="stretch">
+                {/* Honeypot field for spam bots */}
+                <Input
+                  name="_gotcha"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  display="none"
+                />
+
                 {/* Name and Subject Row */}
                 <HStack spacing={4} data-field>
                   <Input
                     placeholder="Name"
                     type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={onChange}
                     bg="rgba(255, 255, 255, 0.1)"
                     border="1px solid"
                     borderColor="rgba(176, 137, 104, 0.3)"
@@ -203,6 +391,9 @@ export default function Contact() {
                   <Input
                     placeholder="Subject"
                     type="text"
+                    name="subject"
+                    value={form.subject}
+                    onChange={onChange}
                     bg="rgba(255, 255, 255, 0.1)"
                     border="1px solid"
                     borderColor="rgba(176, 137, 104, 0.3)"
@@ -227,6 +418,9 @@ export default function Contact() {
                   <Input
                     placeholder="E-Mail"
                     type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={onChange}
                     bg="rgba(255, 255, 255, 0.1)"
                     border="1px solid"
                     borderColor="rgba(176, 137, 104, 0.3)"
@@ -248,6 +442,9 @@ export default function Contact() {
                   <Input
                     placeholder="Phone"
                     type="tel"
+                    name="phone"
+                    value={form.phone}
+                    onChange={onChange}
                     bg="rgba(255, 255, 255, 0.1)"
                     border="1px solid"
                     borderColor="rgba(176, 137, 104, 0.3)"
@@ -272,6 +469,9 @@ export default function Contact() {
                   <Textarea
                     placeholder="Your Message..."
                     rows={6}
+                    name="message"
+                    value={form.message}
+                    onChange={onChange}
                     bg="rgba(255, 255, 255, 0.1)"
                     border="1px solid"
                     borderColor="rgba(176, 137, 104, 0.3)"
@@ -288,6 +488,7 @@ export default function Contact() {
                     _hover={{ borderColor: 'rgba(176, 137, 104, 0.4)' }}
                     transition="all 300ms ease"
                     fontFamily="'Inter', 'DM Sans', sans-serif"
+                    required
                   />
                 </Box>
 
@@ -295,6 +496,8 @@ export default function Contact() {
                 <Box data-field>
                   <Button
                     type="submit"
+                    isLoading={isSubmitting}
+                    loadingText="Preparing..."
                     w="full"
                     bg="rgba(176, 137, 104, 0.9)"
                     color="white"
@@ -483,13 +686,13 @@ export default function Contact() {
                 <VStack align="start" spacing={1}>
                   <Text fontSize="lg" fontWeight="700" fontFamily="'Inter', 'DM Sans', sans-serif">Email At</Text>
                   <Link 
-                    href="mailto:mail2dishig@gmail.com" 
+                    href={`mailto:${CONTACT_EMAIL}`} 
                     fontSize="sm" 
                     color="rgba(255, 255, 255, 0.8)"
                     fontFamily="'Inter', 'DM Sans', sans-serif"
                     _hover={{ color: 'white', textDecoration: 'underline' }}
                   >
-                    mail2dishig@gmail.com
+                    {CONTACT_EMAIL}
                   </Link>
                 </VStack>
               </HStack>

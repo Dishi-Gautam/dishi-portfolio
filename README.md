@@ -13,3 +13,6 @@ Hi! I’m **Dishi Gautam**, a developer who enjoys building clean, modern web ex
 - GitHub: https://github.com/Dishi-Gautam
 - LinkedIn: https://www.linkedin.com/in/dishi02/
 
+## Contact
+
+- Email: mail2dishig@gmail.com
