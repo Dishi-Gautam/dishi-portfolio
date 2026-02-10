@@ -13,7 +13,7 @@ export const skills = {
   ],
   'Frontend': [
     { name: 'HTML' },
-    { name: 'CSS' },
+   { name: 'CSS' },
     { name: 'React' },
     { name: 'Tailwind CSS' },
     { name: 'Chakra UI' },
@@ -57,27 +57,28 @@ export const projects = [
     image: '/images/pic1.png',
   },
   {
+    title: 'ToolIQ',
+    description: 'Content-driven directory for discovering and exploring AI tools across categories and use cases. Built for fast browsing, clean presentation, and SEO-friendly, programmatically generated pages powered by a static dataset.',
+    tech: ['Next.js 14', 'React 18', 'TypeScript', 'Tailwind CSS', 'shadcn/ui', 'Radix UI'],
+    repo: 'https://github.com/Dishi-Gautam/toolIQ',
+    site:'https://tool-iq.vercel.app/',
+    image:'/images/toolIQ.png',
+  },
+  {
     title: 'NextHire',
     description: 'AI-powered recruitment platform streamlining hiring with automated resume screening, candidate matching, interview scheduling, and performance analytics.',
     tech: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'OpenAI', 'Tailwind CSS'],
     repo: 'https://github.com/yash2607-del/NextHire',
     site: 'https://nexthire-snowy.vercel.app/',
     comingSoon: true,
-    image: '/images/placeholder.svg',
+    image: '/images/nexthire.png',
   },
    {
     title: 'Harvesta',
     description: 'Smart agriculture platform for data-driven crop management.',
-    tech: ['React', 'Node.js', 'MongoDB'],
-    repo: 'https://github.com/yjhkdjsg/Harvesta'    ,
+    tech: ['React', 'Node.js', 'MongoDB','Express.js'],
+    repo: 'https://github.com/yjhkdjsg/Harvesta',
     image:'/images/harvesta.png',
-  },
-  {
-    title: 'CyberGuard',
-    description: 'Cybersecurity monitoring platform for campus networks. Features tamper-proof logging, real-time threat detection, AI-powered attack classification, and honeypot deception.',
-    tech: ['React.js', 'Node.js', 'Flask', 'MongoDB', 'Socket.IO', 'Machine Learning'],
-    repo: 'https://github.com/Dishi-Gautam',
-    
   },
   {
     title: 'Portfolio',
