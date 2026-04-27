@@ -1,242 +1,263 @@
-import React, { useEffect, useRef } from 'react'
-import { Box, Container, Heading, Text, HStack, Badge } from '@chakra-ui/react'
+import React, { useEffect, useRef, useState } from 'react'
+import { Box, Container, Heading, Text, HStack, Badge, Flex, useBreakpointValue, Button } from '@chakra-ui/react'
 import ScrollHeading from './ScrollHeading'
+import { experience } from '../data'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function ExperienceNG() {
-  const cardRef = useRef(null)
+const ExperienceItem = ({ exp, index }) => {
+  const itemRef = useRef(null)
+  const dotRef = useRef(null)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const isEven = index % 2 === 0
+  const isMobile = useBreakpointValue({ base: true, md: false })
+
+  // Split summary into lines to get the first one for the preview
+  const summaryLines = exp.summary.split('\n').filter(line => line.trim() !== '')
+  const firstLine = summaryLines[0]
+  const hasMultipleLines = summaryLines.length > 1
 
   useEffect(() => {
-    const card = cardRef.current
-    if (!card) return
+    const el = itemRef.current
+    const dot = dotRef.current
+    if (!el || !dot) return
+
     const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // Enhanced scroll reveal with blur and scale effect
     if (!prefersReduced) {
+      // Animate card entrance
       gsap.fromTo(
-        card,
-        { opacity: 0, y: 40, scale: 0.95, filter: 'blur(8px)' },
+        el,
+        { opacity: 0, x: isMobile ? 30 : (isEven ? -50 : 50), y: 20 },
         {
           opacity: 1,
+          x: 0,
           y: 0,
-          scale: 1,
-          filter: 'blur(0px)',
           duration: 1,
           ease: 'power3.out',
           scrollTrigger: {
-            trigger: card,
+            trigger: el,
             start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play reverse play reverse',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      )
+
+      // Animate dot pop
+      gsap.fromTo(
+        dot,
+        { scale: 0, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.5,
+          ease: 'back.out(1.7)',
+          scrollTrigger: {
+            trigger: dot,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
           },
         }
       )
     }
+  }, [isEven, isMobile])
 
-    // Enhanced hover lift with rotation
-    const onMouseEnter = () => {
-      gsap.to(card, { 
-        y: -12, 
-        scale: 1.02,
-        rotateX: 2,
-        boxShadow: '0 25px 50px rgba(0,0,0,0.18)', 
-        duration: 0.4, 
-        ease: 'power2.out' 
-      })
-    }
-    const onMouseLeave = () => {
-      gsap.to(card, { 
-        y: 0, 
-        scale: 1,
-        rotateX: 0,
-        boxShadow: '0 12px 35px rgba(0,0,0,0.12)', 
-        duration: 0.4, 
-        ease: 'power2.out' 
-      })
-    }
+  return (
+    <Flex
+      ref={itemRef}
+      position="relative"
+      mb={16}
+      w="100%"
+      justifyContent={isMobile ? 'flex-start' : (isEven ? 'flex-start' : 'flex-end')}
+      pl={isMobile ? '40px' : 0}
+    >
+      {/* Roadmap Dot */}
+      <Box
+        ref={dotRef}
+        position="absolute"
+        left={isMobile ? '0' : '50%'}
+        top="40px"
+        transform={isMobile ? 'translateX(-50%)' : 'translateX(-50%)'}
+        zIndex={3}
+        w="20px"
+        h="20px"
+        bg="brand.600"
+        borderRadius="50%"
+        border="4px solid white"
+        boxShadow="0 0 15px rgba(176,137,104,0.5)"
+      />
 
-    card.addEventListener('mouseenter', onMouseEnter)
-    card.addEventListener('mouseleave', onMouseLeave)
-    return () => {
-      card.removeEventListener('mouseenter', onMouseEnter)
-      card.removeEventListener('mouseleave', onMouseLeave)
-    }
+      {/* Experience Card */}
+      <Box
+        maxW={isMobile ? '100%' : '45%'}
+        w="100%"
+        bg="white"
+        borderRadius="24px"
+        overflow="hidden"
+        boxShadow="0 15px 45px rgba(0,0,0,0.07)"
+        transition="all 0.4s ease"
+        _hover={{ transform: 'translateY(-8px)', boxShadow: '0 25px 60px rgba(0,0,0,0.12)' }}
+        border="1px solid"
+        borderColor="rgba(0,0,0,0.03)"
+      >
+        <Box
+          bg="linear-gradient(135deg, #b08968 0%, #7a5f52 100%)"
+          p={6}
+          position="relative"
+        >
+          <Text
+            fontSize="xs"
+            fontWeight="700"
+            color="whiteAlpha.800"
+            textTransform="uppercase"
+            letterSpacing="1.5px"
+            mb={2}
+          >
+            {exp.period}
+          </Text>
+          <Heading as="h3" fontSize={{ base: 'xl', md: '2xl' }} color="white" mb={1}>
+            {exp.role}
+          </Heading>
+          <Text color="whiteAlpha.900" fontWeight="600" fontSize="md">
+            {exp.org}
+          </Text>
+        </Box>
+
+        <Box p={6}>
+          <Text
+            fontSize="sm"
+            color="brand.text"
+            mb={hasMultipleLines ? 2 : 6}
+            lineHeight="1.7"
+            whiteSpace="pre-line"
+          >
+            {isExpanded ? exp.summary : firstLine}
+          </Text>
+
+          {hasMultipleLines && (
+            <Button
+              variant="link"
+              size="sm"
+              color="brand.600"
+              onClick={() => setIsExpanded(!isExpanded)}
+              mb={6}
+              _hover={{ textDecoration: 'none', color: 'brand.800' }}
+              fontWeight="600"
+            >
+              {isExpanded ? 'View Less' : 'View More'}
+            </Button>
+          )}
+
+          <HStack spacing={2} wrap="wrap">
+            {exp.tech.map((t) => (
+              <Badge
+                key={t}
+                variant="subtle"
+                bg="rgba(176,137,104,0.08)"
+                color="brand.600"
+                px={3}
+                py={1}
+                borderRadius="full"
+                fontSize="xs"
+                fontWeight="600"
+                textTransform="none"
+              >
+                {t}
+              </Badge>
+            ))}
+          </HStack>
+        </Box>
+      </Box>
+    </Flex>
+  )
+}
+
+export default function ExperienceNG() {
+  const lineRef = useRef(null)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const line = lineRef.current
+    const container = containerRef.current
+    if (!line || !container) return
+
+    // Interactive Roadmap line fill animation
+    gsap.fromTo(
+      line,
+      { height: '0%' },
+      {
+        height: '100%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: container,
+          start: 'top 75%',
+          end: 'bottom 80%',
+          scrub: true,
+        },
+      }
+    )
   }, [])
 
   return (
-    <Box 
-      id="experience" 
-      as="section" 
-      py={{ base: 20, md: 28 }} 
-      bg="linear-gradient(135deg, #f7efe7 0%, #ece4db 50%, #f7efe7 100%)"
+    <Box
+      id="experience"
+      as="section"
+      py={{ base: 20, md: 32 }}
+      bg="linear-gradient(180deg, #f7efe7 0%, #ffffff 100%)"
       position="relative"
       overflow="hidden"
     >
-      {/* Decorative background elements */}
+      {/* Background Decorative Blob */}
       <Box
         position="absolute"
-        top="10%"
-        right="5%"
-        width="200px"
-        height="200px"
-        borderRadius="50%"
-        bg="radial-gradient(circle, rgba(176,137,104,0.1) 0%, transparent 70%)"
-        filter="blur(40px)"
-        pointerEvents="none"
-      />
-      <Box
-        position="absolute"
-        bottom="15%"
-        left="8%"
-        width="250px"
-        height="250px"
-        borderRadius="50%"
-        bg="radial-gradient(circle, rgba(215,195,181,0.15) 0%, transparent 70%)"
-        filter="blur(50px)"
+        top="-10%"
+        left="-5%"
+        w="400px"
+        h="400px"
+        bg="radial-gradient(circle, rgba(176,137,104,0.05) 0%, transparent 70%)"
+        filter="blur(60px)"
         pointerEvents="none"
       />
 
-      <Container maxW="1200px" position="relative" zIndex={1}>
-        <Box mb={12} textAlign="center"><ScrollHeading text="Experience" /></Box>
-        
-        <Box 
-          ref={cardRef} 
-          maxW="700px" 
-          mx="auto"
-          borderRadius="24px" 
-          bg="white"
-          boxShadow="0 20px 60px rgba(0,0,0,0.08), 0 0 1px rgba(0,0,0,0.1)" 
-          overflow="hidden"
-          transition="all 400ms ease"
-          style={{ perspective: '1000px', transformStyle: 'preserve-3d' }}
-        >
-          {/* Colored header bar with gradient */}
-          <Box 
-            bg="linear-gradient(135deg, #b08968 0%, #7a5f52 100%)"
-            p={6}
-            position="relative"
-            overflow="hidden"
-          >
-            {/* Decorative pattern overlay */}
-            <Box
-              position="absolute"
-              top="0"
-              right="0"
-              width="100%"
-              height="100%"
-              opacity={0.1}
-              backgroundImage="repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px)"
-              pointerEvents="none"
-            />
-            
-            <Box position="relative" zIndex={1}>
-              {/* Badge */}
-              <Box display="inline-flex" alignItems="center" gap={2} mb={3}>
-                <Box 
-                  width="8px" 
-                  height="8px" 
-                  borderRadius="50%" 
-                  bg="rgba(255,255,255,0.9)"
-                  boxShadow="0 0 10px rgba(255,255,255,0.5)"
-                />
-                <Text 
-                  fontSize="xs" 
-                  fontWeight="700" 
-                  letterSpacing="2px" 
-                  color="white"
-                  textTransform="uppercase"
-                >
-                  Internship
-                </Text>
-              </Box>
-              
-              {/* Role & Company */}
-              <Heading 
-                as="h3" 
-                fontSize={{ base: '2xl', md: '3xl' }} 
-                mb={2} 
-                color="white" 
-                fontFamily="'Inter', 'DM Sans', system-ui, sans-serif"
-                fontWeight="700"
-              >
-                Intern — Girikon
-              </Heading>
-              
-              {/* Timeline with icon */}
-              <Box display="flex" alignItems="center" gap={2}>
-                
-                <Text 
-                  fontSize="md" 
-                  color="rgba(255,255,255,0.95)" 
-                  fontWeight="500"
-                  fontFamily="'Inter', 'DM Sans', system-ui, sans-serif"
-                >
-                  June 2025 — July 2025
-                </Text>
-              </Box>
-            </Box>
-          </Box>
-          
-          {/* Content section */}
-          <Box p={6}>
-            {/* Description */}
-            <Text 
-              fontSize="md" 
-              color="brand.text" 
-              mb={6} 
-              lineHeight="1.8"
-              fontFamily="'Inter', 'DM Sans', system-ui, sans-serif"
-            >
-              Completed hands-on training in Salesforce CRM (Sales/Service Cloud) with experience in client solutions, data modeling, integrations, SaaS tools, and workflow optimization.
-            </Text>
-            
-            {/* Tech stack section */}
-            <Box>
-              <Text 
-                fontSize="xs" 
-                fontWeight="700" 
-                letterSpacing="1px" 
-                color="brand.muted"
-                mb={3}
-                textTransform="uppercase"
-              >
-                Technologies
-              </Text>
-              <HStack spacing={2} wrap="wrap">
-                {['Salesforce', 'CRM', 'Integrations', 'SaaS'].map((tech) => (
-                  <Badge 
-                    key={tech} 
-                    borderRadius="full" 
-                    bg="linear-gradient(135deg, rgba(176,137,104,0.1) 0%, rgba(176,137,104,0.05) 100%)"
-                    border="1px solid" 
-                    borderColor="rgba(176,137,104,0.3)" 
-                    px={4} 
-                    py={2} 
-                    color="brand.text" 
-                    fontSize="sm" 
-                    fontWeight="600"
-                    transition="all 0.3s ease"
-                    _hover={{
-                      bg: "linear-gradient(135deg, rgba(176,137,104,0.2) 0%, rgba(176,137,104,0.1) 100%)",
-                      transform: "translateY(-2px)",
-                      borderColor: "brand.600",
-                    }}
-                  >
-                    {tech}
-                  </Badge>
-                ))}
-              </HStack>
-            </Box>
-          </Box>
-          
-          {/* Bottom accent bar */}
-          <Box 
-            height="4px"
-            bg="linear-gradient(90deg, #b08968 0%, #7a5f52 50%, #b08968 100%)"
+      <Container maxW="1000px" position="relative">
+        <Box mb={20} textAlign="center">
+          <ScrollHeading text="Experience" />
+        </Box>
+
+        <Box position="relative" ref={containerRef} px={{ base: 4, md: 0 }}>
+          {/* Central Timeline Line (Track) */}
+          <Box
+            position="absolute"
+            left={{ base: '4px', md: '50%' }}
+            top="0"
+            bottom="0"
+            w="2px"
+            bg="rgba(176,137,104,0.15)"
+            transform={{ base: 'none', md: 'translateX(-50%)' }}
+            zIndex={1}
           />
+
+          {/* Fill Line (Animated) */}
+          <Box
+            ref={lineRef}
+            position="absolute"
+            left={{ base: '4px', md: '50%' }}
+            top="0"
+            w="2px"
+            bg="brand.600"
+            transform={{ base: 'none', md: 'translateX(-50%)' }}
+            zIndex={2}
+            boxShadow="0 0 10px rgba(176,137,104,0.4)"
+          />
+
+          {/* Experience Items */}
+          <Flex direction="column" position="relative" zIndex={3}>
+            {experience.map((exp, idx) => (
+              <ExperienceItem key={idx} exp={exp} index={idx} />
+            ))}
+          </Flex>
         </Box>
       </Container>
     </Box>

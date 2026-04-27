@@ -242,7 +242,6 @@ export default function Contact() {
           filter: 'blur(0px)',
           duration: 0.95,
           ease: 'power2.out',
-          delay: 0.12,
           scrollTrigger: { trigger: container, start: 'top 85%', toggleActions: 'play reverse play reverse' }
         })
       }
@@ -256,7 +255,6 @@ export default function Contact() {
           filter: 'blur(0px)',
           duration: 0.65,
           ease: 'power2.out',
-          delay: 0.15 + i * 0.08,
           scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play reverse play reverse' }
         })
       })
@@ -270,7 +268,6 @@ export default function Contact() {
           filter: 'blur(0px)',
           duration: 0.6,
           ease: 'back.out(1.2)',
-          delay: 0.3 + i * 0.1,
           scrollTrigger: { trigger: el, start: 'top 95%', toggleActions: 'play reverse play reverse' }
         })
       })

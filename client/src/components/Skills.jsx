@@ -41,14 +41,13 @@ export default function Skills() {
     const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReduced) return
     const groups = root.querySelectorAll('[data-skill-group]')
-    groups.forEach((el, i) => {
+    groups.forEach((el) => {
       gsap.fromTo(el, { opacity: 0, y: 24, filter: 'blur(4px)' }, {
         opacity: 1,
         y: 0,
         filter: 'blur(0px)',
         duration: 0.7,
         ease: 'power2.out',
-        delay: i * 0.06,
         scrollTrigger: { trigger: el, start: 'top 85%', end: 'bottom 20%', toggleActions: 'play reverse play reverse' }
       })
     })
@@ -178,9 +177,6 @@ export default function Skills() {
                           boxShadow: '0 10px 25px rgba(176, 137, 104, 0.25)',
                           borderColor: 'brand.500',
                           bg: 'rgba(176, 137, 104, 0.05)',
-                        }}
-                        style={{
-                          animationDelay: `${i * 0.05}s`,
                         }}
                       >
                         {IconComp && (

@@ -39,7 +39,13 @@ export const skills = {
 }
 
 export const projects = [
- 
+  {
+    title: 'Alrize Nex Cell',
+    description: 'A cutting-edge digital agency platform delivering immersive web solutions, built with interactive 3D elements and modern design principles.',
+    tech: ['React.js', '3D / WebGL', 'GSAP', 'Tailwind CSS'],
+    site: 'https://alrizenexcell.com/',
+    image: '/images/alrize.png',
+  },
   {
     title: 'MediChain',
     description: 'A secure, AI-powered, and blockchain-backed web application connecting patients, doctors, and pharmacies through verified prescriptions, real-time inventory, and intelligent health guidance.',
@@ -80,27 +86,26 @@ export const projects = [
     repo: 'https://github.com/yjhkdjsg/Harvesta',
     image:'/images/harvesta.png',
   },
-  {
-    title: 'Portfolio',
-    description: 'Personal portfolio with smooth scroll animations, GSAP-driven reveals, and Chakra-themed UI.',
-    tech: ['React', 'Chakra UI', 'GSAP', 'Vite'],
-    repo: 'https://github.com/Dishi-Gautam/dishi-portfolio',
-    site: '',
-    image:'/images/portfolio.png',
-  },
 ]
 
 export const experience = [
   {
-    role: 'Intern',
-    org: 'Girikon',
-    period: 'June 2025 – July 2025',
-    summary: 'Contributed to web features and UI polish in a collaborative environment.',
+    role: 'Fullstack Web Developer Intern',
+    org: 'Alrize Nex Cell(ANC)',
+    period: 'Feb 2026 – May 2026',
+    summary: `• Engineered scalable React.js interfaces for production-grade applications with focus on performance.
+• Optimized frontend performance using lazy loading and code-splitting, reducing load time by 30%.
+• Designed reusable components improving maintainability and scalability across modules.
+• Designed and developed RESTful APIs with asynchronous processing, improving backend efficiency and scalability.`,
+    tech: ['React.js', 'Performance Optimization', 'Code-splitting', 'RESTful APIs', 'Fullstack'],
   },
   {
-    role: 'Hackathon Participant',
-    org: 'University & Community Events',
-    period: '2024 – 2025',
-    summary: 'Built prototypes focused on usability, animations, and performance.',
+    role: 'Salesforce Intern',
+    org: 'Girikon',
+    period: 'Jun 2025 – Jul 2025',
+    summary: `• Worked on Salesforce CRM (Sales & Service Cloud) for real-world client solutions.
+• Assisted in API integrations and data migration ensuring seamless workflows.
+• Gained exposure to SaaS systems, automation, and data modeling internship.`,
+    tech: ['Salesforce', 'Sales & Service Cloud', 'API Integration', 'Data Modeling'],
   },
-]
+]

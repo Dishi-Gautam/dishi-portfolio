@@ -18,6 +18,10 @@
   --shadow-color: rgba(80, 60, 50, 0.15);
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 html, body, #root { height: 100%; }
 body {
   margin: 0;

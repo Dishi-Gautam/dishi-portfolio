@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Box, Container, Heading, Button, Image, Text, HStack } from '@chakra-ui/react'
+import { Box, Container, Heading, Button, Text, HStack } from '@chakra-ui/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -13,12 +13,23 @@ export default function HeroNG() {
   const nameRef = useRef(null)
 
   useEffect(() => {
-    // Initial subtle gradient animation on mount
-    gsap.to(bgRef.current, {
-      backgroundPosition: '0% 100%',
-      duration: 1.2,
-      ease: 'power2.out',
-    })
+    // Background motion tied to scroll instead of mount timer
+    if (bgRef.current) {
+      gsap.fromTo(
+        bgRef.current,
+        { backgroundPosition: '0% 0%' },
+        {
+          backgroundPosition: '0% 100%',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '#home',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
+        }
+      )
+    }
 
     // Gentle parallax for grid overlay on scroll
     const gridEl = document.getElementById('hero-grid-overlay')
@@ -37,28 +48,50 @@ export default function HeroNG() {
 
     const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // Heading reveal: fade + crisp
+    // Heading reveal on scroll
     if (headingRef.current) {
       gsap.fromTo(
         headingRef.current,
         { opacity: 0, filter: 'blur(6px)', y: 12 },
-        { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.2, ease: 'power3.out' }
+        {
+          opacity: 1,
+          filter: 'blur(0px)',
+          y: 0,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: 'top 90%',
+            toggleActions: 'play reverse play reverse',
+          },
+        }
       )
     }
 
-    // "I am Dishi" reveal
+    // "I am Dishi" reveal on scroll
     if (nameRef.current) {
       gsap.fromTo(
         nameRef.current,
         { opacity: 0, filter: 'blur(6px)', y: 14 },
-        { opacity: 1, filter: 'blur(0px)', y: 0, duration: 1.1, ease: 'power3.out', delay: 0.5 }
+        {
+          opacity: 1,
+          filter: 'blur(0px)',
+          y: 0,
+          duration: 1.1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: nameRef.current,
+            start: 'top 90%',
+            toggleActions: 'play reverse play reverse',
+          },
+        }
       )
     }
 
     if (!prefersReduced) {
       // Subtext lines enter/leave
       const subs = subRefs.current.filter(Boolean)
-      subs.forEach((el, i) => {
+      subs.forEach((el) => {
         gsap.fromTo(
           el,
           { opacity: 0, y: 16 },
@@ -67,7 +100,6 @@ export default function HeroNG() {
             y: 0,
             duration: 0.8,
             ease: 'power3.out',
-            delay: i * 0.4,
             scrollTrigger: {
               trigger: el,
               start: 'top 95%',
@@ -82,11 +114,21 @@ export default function HeroNG() {
 
       // Buttons subtle enter + hover lift remains via Chakra
       const btns = btnRefs.current.filter(Boolean)
-      btns.forEach((el, i) => {
+      btns.forEach((el) => {
         gsap.fromTo(
           el,
           { opacity: 0, y: 14 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', delay: i * 0.06 }
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 95%',
+              toggleActions: 'play reverse play reverse',
+            },
+          }
         )
       })
     }
@@ -159,7 +201,7 @@ export default function HeroNG() {
           <Button as="a" href="#contact" border="0.5px solid" size="lg" variant="solid" ref={(el)=> (btnRefs.current[0] = el)}>
         Hire Me
           </Button>
-          <Button as="a" href="https://drive.google.com/file/d/1QCCxNWrkvwcHR74G33h1bxFpp1vThgUt/view?usp=sharing" target="_blank" rel="noreferrer" size="lg" variant="outline" ref={(el)=> (btnRefs.current[1] = el)}>Download Resume</Button>
+          <Button as="a" href="https://drive.google.com/file/d/1kfj4iR-hUMdSonzu35kIgOrat1LpYyWt/view" target="_blank" rel="noreferrer" size="lg" variant="outline" ref={(el)=> (btnRefs.current[1] = el)}>Download Resume</Button>
         </HStack>
       </Container>
         </Box>
